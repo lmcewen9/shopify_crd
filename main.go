@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	s, err := scraper.fetchShopify(scraper.Configuration{
+	s, err := scraper.FetchShopify(scraper.Configuration{
 		URL: os.Getenv("SHOPIFY_URL"),
 	})
 

@@ -10,7 +10,7 @@ type Configuration struct{
 	URL		string
 }
 
-func fetchShopify(config Configuration) (string, error){
+func FetchShopify(config Configuration) (string, error){
 	res, err := http.Get(config.URL + "/products.json")
 
 	if err != nil{
