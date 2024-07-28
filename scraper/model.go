@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type ProductResponse []struct {
+type ProductResponse struct {
 	Products	Product	`json:"products"`
 }
 
