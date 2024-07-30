@@ -5,20 +5,23 @@ import (
 )
 
 type ProductResponse struct {
-	Products	Product	`json:"products"`
+	Products []Product `json:"products"`
 }
 
-type Product []struct {
-	Category	string	`json:"product_type"`
-	Name		string	`json:"title"`
-	Variant		string	`json:"variants"`
-	Price		string	`json:"price"`
-	Product_URL	string	`json:"handle"`
+type Product struct {
+	Category    string     `json:"product_type"`
+	Name        string     `json:"title"`
+	Variant     []Variants `json:"variants"`
+	Product_URL string     `json:"handle"`
 }
 
-func (s Product) TextOutput() string {
+type Variants struct {
+	Price string `json:"price"`
+}
+
+func (s Product) TextOutput(config *Configuration) string {
 	p := fmt.Sprintf(
-		"Category: %s\nName: %s\nVariant: %s\nPrice: %s\n URL: %s/products/%s",
-		s[0].Category, s[0].Name, s[0].Variant, s[0].Price, "", s[0].Product_URL)
+		"Name: %s\nCategory: %s\nPrice: %s\nURL: %s/products/%s\n\n",
+		s.Name, s.Category, s.Variant[0].Price, config.URL, s.Product_URL)
 	return p
 }
