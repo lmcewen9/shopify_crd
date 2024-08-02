@@ -10,13 +10,21 @@ import (
 
 func main() {
 	os.Setenv("SHOPIFY_URL", "https://store.taylorswift.com")
-	s, err := scraper.FetchShopify(&scraper.Configuration{
-		URL: os.Getenv("SHOPIFY_URL"),
-	})
+	page := 1
+	for {
+		s, err := scraper.FetchShopify(&scraper.Configuration{
+			URL: os.Getenv("SHOPIFY_URL"),
+		}, page)
 
-	if err != nil {
-		log.Fatal(err)
+		if s == "" {
+			break
+		}
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Print(s)
+		page++
 	}
-
-	fmt.Print(s)
 }

@@ -3,18 +3,17 @@ package scraper
 import (
 	"encoding/json"
 	"fmt"
-
-	//"io"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type Configuration struct {
 	URL string
 }
 
-func FetchShopify(config *Configuration) (string, error) {
-	var url string = fmt.Sprintf("%s/products.json", config.URL)
+func FetchShopify(config *Configuration, page int) (string, error) {
+	var url string = fmt.Sprintf("%s/products.json?page=%s", config.URL, strconv.Itoa(page))
 	res, err := http.Get(url)
 
 	if err != nil {
@@ -28,13 +27,15 @@ func FetchShopify(config *Configuration) (string, error) {
 		log.Fatal(err)
 	}
 
+	if len(pResp.Products) == 0 {
+		return "", nil
+	}
+
 	var ret string
-	fmt.Println(len(pResp.Products))
 
 	for i := 0; i < len(pResp.Products); i++ {
 		ret += pResp.Products[i].TextOutput(config)
 	}
-
 	return ret, nil
 
 }
